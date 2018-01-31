@@ -2,6 +2,11 @@ import db from 'sqlite';
 import config from '../config.json';
 import { formatDate } from './utils';
 
+
+const sequelize = new Sequelize(config.db.url);
+
+
+
 const schemaVersion = 3;
 
 const createTables = async () => {
@@ -138,20 +143,15 @@ export const completePledge = pledgeId => {
 };
 
 export const init = async (dbFilename = config.db) => {
-  try {
-    await db.open(dbFilename);
-  } catch (e) {
-    await new db.Database(dbFilename);
-  }
-  const hasPledgesTable = !!(await db.get(`
-    SELECT 1 FROM sqlite_master WHERE name ='pledges' and type='table';
-  `));
-  if (hasPledgesTable) {
-    await migrateIfNeeded();
-  } else {
-    console.log('creating tables'); // eslint-disable-line no-console
-    createTables();
-  }
+  sequelize
+    .authenticate()
+    .then(() => {
+      console.log('Database connection has been established successfully.');
+    })
+    .catch(err => {
+      console.error('Unable to connect to the database:', err);
+    });
+  // run migrations?
 };
 
 export const close = async () => {
