@@ -5,6 +5,8 @@ import human2date from 'date.js';
 import { formatDate } from './utils';
 import * as db from './db';
 import * as slack from './slack';
+import config from '../config.json';
+
 
 const debug = _debug('pledge');
 
@@ -38,7 +40,7 @@ async function newPledge({ text, requester }) {
 async function getPledgesList(requester) {
   const { requests, pledges } = await db.getList(requester);
 
-  const baseURL = 'https://d16cbefd.eu.ngrok.io';
+  const baseURL = config.site_url;
 
   const myPledges = `*My pledges:*\n${pledges.map(p => `\n • ${p.content} _for ${p.requester}_ *by ${p.deadline}* <${baseURL}/deletePledge/${p.id}|delete> <${baseURL}/completePledge/${p.id}|complete>`)}`;
   const myRequests = `*My requests:*\n${requests.map(p => `\n • _${p.performer}_ pledged to ${p.content} *by ${p.deadline}* <${baseURL}/deletePledge/${p.id}|delete> <${baseURL}/completePledge/${p.id}|complete>`)}`;
