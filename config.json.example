@@ -1,0 +1,17 @@
+{
+  "db": {
+    "development": {
+      "url": "postgres://pledge:pledge@localhost:5432/pledge"
+    },
+    "test": {
+      "url": "sqlite://:memory:"
+    }
+  },
+  "site_url": "your server urls with https",
+  "interval": 1,
+  "slack": {
+    "incomingWebhookURL": "<your hook url>",
+    "clientId": "<your client id>",
+    "clientSecret": "<your client secret>"
+  }
+}

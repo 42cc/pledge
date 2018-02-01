@@ -1,0 +1,54 @@
+build:
+  config:
+    image: node:6
+    environment:
+      - NPM_CONFIG_CACHE=/drone/.npm
+      - NPM_CONFIG_LOGLEVEL=warn
+    commands:
+      - export TZ="Europe/Rome"
+      - ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+      - cp config-ci.json config.json
+      - npm install -g yarn
+      - yarn
+      - yarn test
+      - yarn run lint
+      - cp config-prod.json config.json
+
+publish:
+  docker:
+    registry: quay.io
+    username: $$QUAY_USERNAME
+    password: $$QUAY_PASSWORD
+    email: $$QUAY_EMAIL
+    repo: buildo/pledge
+    force_tag: true
+    tag:
+      - latest
+      - $$COMMIT
+
+deploy:
+  ssh:
+    host: jar.srv.buildo.io
+    user: root
+    port: 22
+    commands:
+      - crane lift pledge
+    when:
+      branch: master
+
+notify:
+  slack:
+    webhook_url: "$$BUILDO_SLACK_WEBHOOK_URL"
+    channel: pledge
+    username: drone
+    template: |
+      {{#success build.status}}
+        :tada: New version of *pledge* deployed! (_commit <{{ build.link_url }}|$$COMMIT>_)
+      {{else}}
+        :cold_sweat: Something went wrong with the deploy!
+      {{/success}}
+    when:
+      branch: master
+      success: true
+      failure: true
+      change: false
