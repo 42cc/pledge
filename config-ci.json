@@ -7,12 +7,12 @@
       "url": "sqlite://:memory:"
     }
   },
-  "site_url": "https://d16cbefd.eu.ngrok.io",
+  "site_url": "",
   "interval": 1,
   "slack": {
-    "incomingWebhookURL": "https://hooks.slack.com/services/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",
-    "clientId": "227477068897.306971429553",
-    "clientSecret": "d1bfc5c62548d69db67db924a10484c6"
+    "incomingWebhookURL": "",
+    "clientId": "",
+    "clientSecret": ""
   }
 }
 
