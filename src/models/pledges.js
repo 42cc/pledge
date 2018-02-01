@@ -1,12 +1,26 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var Pledges = sequelize.define('Pledges', {
-    requester: DataTypes.STRING,
-    performer: DataTypes.STRING,
+    requester: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    performer: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     content: DataTypes.STRING,
     deadline: DataTypes.DATE,
-    completed: DataTypes.BOOLEAN,
-    expiredNotificationSent: DataTypes.BOOLEAN
+    completed: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
+    expiredNotificationSent: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    }
   }, {
     classMethods: {
       associate: function(models) {

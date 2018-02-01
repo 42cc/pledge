@@ -4,15 +4,17 @@ module.exports = {
     return queryInterface.createTable('Pledges', {
       id: {
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4
+        type: Sequelize.INTEGER
       },
       requester: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       performer: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       content: {
         type: Sequelize.STRING
@@ -21,10 +23,14 @@ module.exports = {
         type: Sequelize.DATE
       },
       completed: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
       },
       expiredNotificationSent: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,

@@ -1,14 +1,16 @@
 'use strict';
 
 import config from '../../config.json';
-
 var fs        = require('fs');
 var path      = require('path');
 var Sequelize = require('sequelize');
 var basename  = path.basename(__filename);
+var env       = process.env.NODE_ENV || 'development';
 var db        = {};
 
-var sequelize = new Sequelize(config.db.url);
+var db_config = config.db[env];
+
+var sequelize = new Sequelize(db_config.url);
 
 fs
   .readdirSync(__dirname)
