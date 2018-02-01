@@ -10,7 +10,7 @@ export const getList = async requester => {
       requester: requester
     },
     raw: true
-  })).map(x => ({ ...x, deadline: formatDate(Date(x.deadline)) }));
+  })).map(x => ({ ...x, deadline: formatDate(x.deadline) }));
 
   const pledges = await (db.Pledges.findAll({
     where: {
@@ -18,7 +18,7 @@ export const getList = async requester => {
       performer: requester
     },
     raw: true
-  })).map(x => ({ ...x, deadline: formatDate(Date(x.deadline)) }));
+  })).map(x => ({ ...x, deadline: formatDate(x.deadline) }));
 
   return { requests, pledges };
 };
